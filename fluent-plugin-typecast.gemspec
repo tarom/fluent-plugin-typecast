@@ -9,12 +9,25 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["MORIYA Taro"]
-  s.date = %q{2013-03-21}
+  s.date = %q{2013-03-25}
   s.description = %q{typecast output plugin for fluentd}
   s.email = %q{taro.toys@gmail.com}
   s.extra_rdoc_files = [
     "LICENSE.txt",
     "README.rdoc"
+  ]
+  s.files = [
+    ".document",
+    "Gemfile",
+    "Gemfile.lock",
+    "LICENSE.txt",
+    "README.rdoc",
+    "Rakefile",
+    "VERSION",
+    "fluent-plugin-typecast.gemspec",
+    "lib/fluent/plugin/out_typecast.rb",
+    "test/helper.rb",
+    "test/plugin/test_out_typecast.rb"
   ]
   s.homepage = %q{http://github.com/tarom/fluent-plugin-typecast}
   s.licenses = ["Apache License 2.0"]

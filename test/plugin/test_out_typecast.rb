@@ -57,6 +57,20 @@ class TestTypecastOutput < Test::Unit::TestCase
     assert_equal('other', record['o'])
   end
 
+  def test_typecast_float
+    d = create_driver(DEFAULT_CONFIG + %[
+      tag test.tag
+      item_types f:float
+    ])
+    v = 1.1
+    time = Time.parse('2013-02-12 22:01:15 UTC').to_i
+    d.run do
+      d.emit({'f' => v.to_s }, time)
+    end
+    record = d.emits[0][2]
+    assert_equal(v, record['f'])
+  end
+
   def test_prefix
     d = create_driver(DEFAULT_CONFIG + %[
       item_types i:integer,s:string,t:time,b:bool,a:array

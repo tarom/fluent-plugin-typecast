@@ -17,7 +17,7 @@ class TypecastOutput < Output
   config_param :tag,         :string, default: nil
   config_param :prefix,      :string, default: nil
 
-  ITEM_TYPES = ['string', 'integer', 'bool', 'time', 'array']
+  ITEM_TYPES = ['string', 'integer', 'float', 'bool', 'time', 'array']
 
   def configure(conf)
     super
@@ -46,6 +46,8 @@ class TypecastOutput < Output
       value.to_s
     when 'integer'
       value.to_i
+    when 'float'
+      value.to_f
     when 'bool'
       Config.bool_value(value)
     when 'time'

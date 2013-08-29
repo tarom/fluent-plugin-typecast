@@ -15,3 +15,6 @@ vendor/bundle
 
 # jeweler generated
 pkg
+
+/bin/jeweler
+/bin/rake

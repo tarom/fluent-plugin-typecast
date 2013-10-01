@@ -22,6 +22,11 @@ class TypecastOutput < Output
   def configure(conf)
     super
     raise ConfigError, "typecast: 'prefix' or 'tag' is required" unless @tag or @prefix
+
+    @cast_procs = {}
+    @item_types.map {|key, type|
+      @cast_procs[key] = cast_proc(type)
+    }
   end
 
   def emit(tag, es, chain)
@@ -32,30 +37,32 @@ class TypecastOutput < Output
         "#{@prefix}.#{tag}"
       end
     es.each do |time, record|
-      record.keys.each do |key|
-        record[key] = cast(key, record[key])
+      record.each_key do |key|
+        if cast_proc = @cast_procs[key]
+          record[key] = cast_proc.call(record[key])
+        end
       end
       Fluent::Engine.emit(tag, time, record)
     end
     chain.next
   end
 
-  def cast(key, value)
+  def cast_proc(key)
     case @item_types[key]
     when 'string'
-      value.to_s
+      Proc.new {|value| value.to_s }
     when 'integer'
-      value.to_i
+      Proc.new {|value| value.to_i }
     when 'float'
-      value.to_f
+      Proc.new {|value| value.to_f }
     when 'bool'
-      Config.bool_value(value)
+      Proc.new {|value| Config.bool_value(value) }
     when 'time'
-      Time.strptime(value, @time_format)
+      Proc.new {|value| Time.strptime(value, @time_format) }
     when 'array'
-      value.split(/\s*,\s*/)
+      Proc.new {|value| value.split(/\s*,\s*/) }
     else
-      value
+      Proc.new {|value| value }
     end
   end
 end

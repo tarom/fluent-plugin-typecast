@@ -48,7 +48,7 @@ class TypecastOutput < Output
   end
 
   def cast_proc(key)
-    case @item_types[key]
+    case key
     when 'string'
       Proc.new {|value| value.to_s }
     when 'integer'

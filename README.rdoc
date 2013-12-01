@@ -1,6 +1,6 @@
 = fluent-plugin-typecast
 
-Description goes here.
+typecast output plugin for fluentd.
 
 == Configuration
 

@@ -1,5 +1,7 @@
 = fluent-plugin-typecast
 
+{<img src="https://travis-ci.org/tarom/fluent-plugin-typecast.png?branch=master" alt="Build Status" />}[https://travis-ci.org/tarom/fluent-plugin-typecast]
+
 typecast output plugin for fluentd.
 
 == Configuration

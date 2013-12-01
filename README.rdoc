@@ -4,14 +4,14 @@ typecast output plugin for fluentd.
 
 == Configuration
 
-[item_types] KEY:TYPE pairs separated by comma(,). support types:
-
-- integer
-- float
-- string
-- time
-- bool
-- array
+[item_types]
+  KEY:TYPE pairs separated by comma(,). support types:
+  - integer
+  - float
+  - string
+  - time
+  - bool
+  - array
 
 [time_format] format for typecast to time
 

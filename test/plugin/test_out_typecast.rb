@@ -78,7 +78,7 @@ class TestTypecastOutput < Test::Unit::TestCase
       item_types j:json
     ])
     v = {"msg" => "ok"}
-    time = Time.parse('2013-02-12 22:01:15 UTC').to_i
+    time = Time.parse('2015-01-19 08:35:15 UTC').to_i
     d.run do
       d.emit({'j' => v }, time)
     end

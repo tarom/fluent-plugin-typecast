@@ -15,6 +15,7 @@ typecast output plugin for fluentd.
   - time
   - bool
   - array
+  - json
 
 [time_format] format for typecast to time
 

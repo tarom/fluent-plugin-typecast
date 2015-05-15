@@ -43,18 +43,18 @@ Gem::Specification.new do |s|
     s.specification_version = 4
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<fluentd>, [">= 0"])
+      s.add_runtime_dependency(%q<fluent-plugin-typecast>, [">= 0"])
       s.add_development_dependency(%q<rdoc>, ["~> 3.12"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.8.4"])
       s.add_development_dependency(%q<test-unit>, ["~> 3.0.9"])
     else
-      s.add_dependency(%q<fluentd>, [">= 0"])
+      s.add_dependency(%q<fluent-plugin-typecast>, [">= 0"])
       s.add_dependency(%q<rdoc>, ["~> 3.12"])
       s.add_dependency(%q<jeweler>, ["~> 1.8.4"])
       s.add_dependency(%q<test-unit>, ["~> 3.0.9"])
     end
   else
-    s.add_dependency(%q<fluentd>, [">= 0"])
+    s.add_dependency(%q<fluent-plugin-typecast>, [">= 0"])
     s.add_dependency(%q<rdoc>, ["~> 3.12"])
     s.add_dependency(%q<jeweler>, ["~> 1.8.4"])
     s.add_dependency(%q<test-unit>, ["~> 3.0.9"])

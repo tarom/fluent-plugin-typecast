@@ -18,7 +18,7 @@ class TestTypecastOutput < Test::Unit::TestCase
     tag = "test.tag"
     prefix = "prefix"
     d = create_driver(DEFAULT_CONFIG + %[
-      item_types test1:integer,test2:string,test3:time,test4:bool
+      item_types test1:integer,test2:string,test3:time,test4:bool,test5:json
       time_format #{time_format}
       tag #{tag}
       prefix #{prefix}
@@ -28,6 +28,7 @@ class TestTypecastOutput < Test::Unit::TestCase
     assert_equal('string', d.item_types['test2'])
     assert_equal('time', d.item_types['test3'])
     assert_equal('bool', d.item_types['test4'])
+    assert_equal('json', d.item_types['test5'])
 
     assert_equal(time_format, d.time_format)
     assert_equal(tag, d.tag)
@@ -69,6 +70,20 @@ class TestTypecastOutput < Test::Unit::TestCase
     end
     record = d.emits[0][2]
     assert_equal(v, record['f'])
+  end
+
+  def test_typecast_json
+    d = create_driver(DEFAULT_CONFIG + %[
+      tag test.tag
+      item_types j:json
+    ])
+    v = {"msg" => "ok"}
+    time = Time.parse('2015-01-19 08:35:15 UTC').to_i
+    d.run do
+      d.emit({'j' => v }, time)
+    end
+    record = d.emits[0][2]
+    assert_equal(v.to_json, record['j'])
   end
 
   def test_prefix

@@ -17,7 +17,7 @@ class TypecastOutput < Output
   config_param :tag,         :string, default: nil
   config_param :prefix,      :string, default: nil
 
-  ITEM_TYPES = ['string', 'integer', 'float', 'bool', 'time', 'array']
+  ITEM_TYPES = ['json', 'string', 'integer', 'float', 'bool', 'time', 'array']
 
   def configure(conf)
     super
@@ -49,6 +49,8 @@ class TypecastOutput < Output
 
   def cast_proc(key)
     case key
+    when 'json'
+      Proc.new {|value| value.to_json }
     when 'string'
       Proc.new {|value| value.to_s }
     when 'integer'

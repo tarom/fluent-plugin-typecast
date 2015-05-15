@@ -1,3 +1,4 @@
+sudo: false
 language: ruby
 rvm:
   - "1.9.2"
@@ -6,6 +7,6 @@ rvm:
   - "2.1"
   - "2.2"
 gemfile:
-  - Gemfile
+  - gemfiles/Gemfile.ci
   - gemfiles/Gemfile.v0.10
 script: bundle exec rake -f Rakefile.ci

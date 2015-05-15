@@ -1,3 +1,7 @@
 source "https://rubygems.org"
 
-gem "fluentd", "~> 0.10.0"
+gemspec
+
+group :test do
+  gem "rake"
+end

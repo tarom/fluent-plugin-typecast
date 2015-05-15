@@ -4,5 +4,6 @@ gem "fluentd", "~> 0.10.0"
 
 group :test do
   gem "rake"
+  gem "test-unit"
   gem "codeclimate-test-reporter", require: nil
 end

@@ -42,15 +42,18 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<fluentd>)
       s.add_development_dependency(%q<rdoc>, ["~> 3.12"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.8.4"])
+      s.add_development_dependency(%q<test-unit>, ["~> 3.0.9"])
     else
       s.add_dependency(%q<fluentd>)
       s.add_dependency(%q<rdoc>, ["~> 3.12"])
       s.add_dependency(%q<jeweler>, ["~> 1.8.4"])
+      s.add_dependency(%q<test-unit>, ["~> 3.0.9"])
     end
   else
     s.add_dependency(%q<fluentd>)
     s.add_dependency(%q<rdoc>, ["~> 3.12"])
     s.add_dependency(%q<jeweler>, ["~> 1.8.4"])
+    s.add_dependency(%q<test-unit>, ["~> 3.0.9"])
   end
 end
 

@@ -14,5 +14,11 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'fluent/test'
 require 'fluent/plugin/out_typecast'
 
+begin
+  require "codeclimate-test-reporter"
+  CodeClimate::TestReporter.start
+rescue LoadError => e
+end
+
 class Test::Unit::TestCase
 end

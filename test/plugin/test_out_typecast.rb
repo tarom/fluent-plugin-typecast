@@ -38,12 +38,12 @@ class TestTypecastOutput < Test::Unit::TestCase
   def test_typecast
     d = create_driver(DEFAULT_CONFIG + %[
       tag test.tag
-      item_types i:integer,s:string,t:time,b:bool,a:array
+      item_types i:integer,s:string,t:time,b:bool,a:array,l:long
       time_format %Y-%m-%d %H:%M:%S %z
     ])
     time = Time.parse('2013-02-12 22:01:15 UTC').to_i
     t = '2013-02-12 22:04:14 UTC'
-    record = {'i' => '1', 's' => 'foo', 't' => t, 'b' => 'true', 'a' => 'a, b, c', 'o' => 'other'}
+    record = {'i' => '1', 's' => 'foo', 't' => t, 'b' => 'true', 'a' => 'a, b, c', 'o' => 'other', 'l' => '1.1e+1'}
     d.run do
       d.emit(record, time)
     end
@@ -56,6 +56,7 @@ class TestTypecastOutput < Test::Unit::TestCase
     assert_equal(true, record['b'])
     assert_equal(['a', 'b', 'c'], record['a'])
     assert_equal('other', record['o'])
+    assert_equal(11, record['l'])
   end
 
   def test_typecast_float

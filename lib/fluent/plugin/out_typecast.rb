@@ -17,7 +17,7 @@ class TypecastOutput < Output
   config_param :tag,         :string, default: nil
   config_param :prefix,      :string, default: nil
 
-  ITEM_TYPES = ['json', 'string', 'integer', 'float', 'bool', 'time', 'array']
+  ITEM_TYPES = ['json', 'string', 'integer', 'float', 'bool', 'time', 'array', 'long']
 
   def configure(conf)
     super
@@ -63,6 +63,8 @@ class TypecastOutput < Output
       Proc.new {|value| Time.strptime(value, @time_format) }
     when 'array'
       Proc.new {|value| value.split(/\s*,\s*/) }
+    when 'long'
+      Proc.new {|value| value.to_f.to_i }
     else
       Proc.new {|value| value }
     end

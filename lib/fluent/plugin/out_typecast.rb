@@ -19,6 +19,11 @@ class TypecastOutput < Output
 
   ITEM_TYPES = ['json', 'string', 'integer', 'float', 'bool', 'time', 'array']
 
+  # Define `router` method to support v0.10.57 or earlier
+  unless method_defined?(:router)
+    define_method("router") { Fluent::Engine }
+  end
+
   def configure(conf)
     super
     raise ConfigError, "typecast: 'prefix' or 'tag' is required" unless @tag or @prefix
@@ -42,7 +47,7 @@ class TypecastOutput < Output
           record[key] = cast_proc.call(record[key])
         end
       end
-      Fluent::Engine.emit(tag, time, record)
+      router.emit(tag, time, record)
     end
     chain.next
   end

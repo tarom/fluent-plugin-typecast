@@ -35,7 +35,7 @@ Gem::Specification.new do |s|
     "test/plugin/test_out_typecast.rb"
   ]
   s.homepage = "http://github.com/tarom/fluent-plugin-typecast"
-  s.licenses = ["Apache License 2.0"]
+  s.licenses = ["Apache-2.0"]
   s.rubygems_version = "2.4.6"
   s.summary = "typecast output plugin for fluentd"
 

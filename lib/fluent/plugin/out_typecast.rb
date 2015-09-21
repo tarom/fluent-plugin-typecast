@@ -42,7 +42,7 @@ class TypecastOutput < Output
           record[key] = cast_proc.call(record[key])
         end
       end
-      Fluent::Engine.emit(tag, time, record)
+      router.emit(tag, time, record)
     end
     chain.next
   end

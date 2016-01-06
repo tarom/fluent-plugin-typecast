@@ -2,7 +2,10 @@ module Fluent
 class TypecastOutput < Output
   Fluent::Plugin.register_output('typecast', self)
 
-  config_param :item_types, default: nil do |value|
+  ITEM_TYPES = ['json', 'string', 'integer', 'float', 'bool', 'time', 'array']
+
+  config_param :item_types, desc: "Supported types are: #{ITEM_TYPES.join(',')}",
+               default: nil do |value|
     map = value.split(',').map do |type|
       key, type = type.split(/:/)
       if ITEM_TYPES.include?(type)
@@ -13,11 +16,12 @@ class TypecastOutput < Output
     end
     Hash[*map.flatten(1)]
   end
-  config_param :time_format, :string, default: nil
-  config_param :tag,         :string, default: nil
-  config_param :prefix,      :string, default: nil
-
-  ITEM_TYPES = ['json', 'string', 'integer', 'float', 'bool', 'time', 'array']
+  config_param :time_format, :string, default: nil,
+               desc: "Format for typecast to time"
+  config_param :tag,         :string, default: nil,
+               desc: "Identify the tag of the record"
+  config_param :prefix,      :string, default: nil,
+               desc: "Prefix string, add to the tag"
 
   def configure(conf)
     super

@@ -1,4 +1,5 @@
 require 'helper'
+require 'fluent/test/driver/output'
 
 class TestTypecastOutput < Test::Unit::TestCase
 
@@ -44,12 +45,12 @@ class TestTypecastOutput < Test::Unit::TestCase
     time = Time.parse('2013-02-12 22:01:15 UTC').to_i
     t = '2013-02-12 22:04:14 UTC'
     record = {'i' => '1', 's' => 'foo', 't' => t, 'b' => 'true', 'a' => 'a, b, c', 'o' => 'other'}
-    d.run do
-      d.emit(record, time)
+    d.run(default_tag: 'test') do
+      d.feed(time, record)
     end
-    emits = d.emits
-    assert_equal 1, emits.length
-    tag, time, record = emits[0]
+    events = d.events
+    assert_equal 1, events.length
+    tag, time, record = events[0]
     assert_equal(1, record['i'])
     assert_equal('foo', record['s'])
     assert_equal(Time.gm(2013, 2, 12, 22, 4, 14), record['t'])
@@ -65,10 +66,10 @@ class TestTypecastOutput < Test::Unit::TestCase
     ])
     v = 1.1
     time = Time.parse('2013-02-12 22:01:15 UTC').to_i
-    d.run do
-      d.emit({'f' => v.to_s }, time)
+    d.run(default_tag: 'test') do
+      d.feed(time, {'f' => v.to_s })
     end
-    record = d.emits[0][2]
+    record = d.events[0][2]
     assert_equal(v, record['f'])
   end
 
@@ -79,10 +80,10 @@ class TestTypecastOutput < Test::Unit::TestCase
     ])
     v = {"msg" => "ok"}
     time = Time.parse('2015-01-19 08:35:15 UTC').to_i
-    d.run do
-      d.emit({'j' => v }, time)
+    d.run(default_tag: 'test') do
+      d.feed(time, {'j' => v })
     end
-    record = d.emits[0][2]
+    record = d.events[0][2]
     assert_equal(v.to_json, record['j'])
   end
 
@@ -91,16 +92,16 @@ class TestTypecastOutput < Test::Unit::TestCase
       item_types i:integer,s:string,t:time,b:bool,a:array
       prefix prefix
     ])
-    d.run do
-      d.emit({}, Time.now)
+    d.run(default_tag: 'test') do
+      d.feed(Time.now.to_i, {})
     end
-    emits = d.emits
-    assert_equal 1, emits.length
-    tag, time, record = emits[0]
+    events = d.events
+    assert_equal 1, events.length
+    tag, time, record = events[0]
     assert_equal('prefix.test', tag)
   end
 
-  def create_driver(conf = DEFAULT_CONFIG, tag = 'test')
-    Fluent::Test::OutputTestDriver.new(Fluent::TypecastOutput, tag).configure(conf)
+  def create_driver(conf = DEFAULT_CONFIG)
+    Fluent::Test::Driver::Output.new(Fluent::Plugin::TypecastOutput).configure(conf)
   end
 end

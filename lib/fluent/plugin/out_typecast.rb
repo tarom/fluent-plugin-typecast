@@ -1,6 +1,10 @@
-module Fluent
+require 'fluent/plugin/output'
+
+module Fluent::Plugin
 class TypecastOutput < Output
   Fluent::Plugin.register_output('typecast', self)
+
+  helpers :event_emitter
 
   config_param :item_types, default: nil do |value|
     map = value.split(',').map do |type|
@@ -29,8 +33,8 @@ class TypecastOutput < Output
     }
   end
 
-  def emit(tag, es, chain)
-    tag = 
+  def process(tag, es)
+    tag =
       if @tag
         @tag
       elsif @prefix
@@ -42,9 +46,8 @@ class TypecastOutput < Output
           record[key] = cast_proc.call(record[key])
         end
       end
-      Fluent::Engine.emit(tag, time, record)
+      router.emit(tag, time, record)
     end
-    chain.next
   end
 
   def cast_proc(key)
@@ -58,7 +61,7 @@ class TypecastOutput < Output
     when 'float'
       Proc.new {|value| value.to_f }
     when 'bool'
-      Proc.new {|value| Config.bool_value(value) }
+      Proc.new {|value| Fluent::Config.bool_value(value) }
     when 'time'
       Proc.new {|value| Time.strptime(value, @time_format) }
     when 'array'
